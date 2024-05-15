@@ -7,6 +7,7 @@ import SlideSection from "@/components/homeNoAuth/slideSection";
 import { GetStaticProps } from "next";
 import courseService, { CourseType } from "@/services/courseService";
 import { ReactNode } from "react";
+import Footer from "@/components/common/footer";
 
 interface IndexPageProps {
   children?: ReactNode,
@@ -32,19 +33,42 @@ const HomeNotAuth = function ({ course }: IndexPageProps) {
         </div>
         <CardsSection />
         <SlideSection newestCourses={course} />
+        <Footer />
       </main>
     </>
   )
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const res = await courseService.getNewestCourses()
-  return {
-    props: {
-      course: res?.data
-    },
-    revalidate: 3600 * 24
+  try {
+    const res = await courseService.getNewestCourses();
+
+    // Verifica se a resposta é válida
+    if (!res || res === undefined || res.course === undefined) {
+      return {
+        props: {
+          course: null, // Use null como valor padrão
+        },
+        revalidate: 3600 * 24,
+      };
+    }
+
+    return {
+      props: {
+        course: res.course,
+      },
+      revalidate: 3600 * 24,
+    };
+  } catch (error) {
+    console.error('Erro ao obter os cursos mais recentes:', error);
+    return {
+      // Trate o caso de erro, por exemplo, redirecionando para uma página de erro
+      redirect: {
+        destination: '/pagina-de-erro',
+        permanent: false,
+      },
+    };
   }
-}
+};
 
 export default HomeNotAuth;
