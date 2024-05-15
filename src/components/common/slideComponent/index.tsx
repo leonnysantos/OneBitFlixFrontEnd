@@ -11,7 +11,7 @@ interface props {
 const SlideComponent = function ({ course }: props) {
     let slideCount = 0
 
-    if (course && course.length > 4) {
+    if (course.length > 4) {
         slideCount = 4
     } else if (course) {
         slideCount = course.length
@@ -22,23 +22,23 @@ const SlideComponent = function ({ course }: props) {
             <Splide options={{
                 type: "loop",
                 perPage: slideCount,
-                perMove: slideCount * 300,
-                with: 1200,
-                arrows: course && course.length > 4 ? true : false,
-                drag: course && course.length > 4 ? true : false,
+                perMove: 1,
+                width: slideCount * 300,
+                arrows: course.length > 4 ? true : false,
+                drag: course.length > 4 ? true : false,
                 pagination: false,
                 breakpoints: {
                     1200: {
                         perPage: slideCount >= 2 ? 2 : 1,
                         width: slideCount >= 2 ? 600 : 300,
-                        arrows: course && course.length > 2 ? true : false,
-                        drag: course && course.length > 2 ? true : false
+                        arrows: course.length > 2 ? true : false,
+                        drag: course.length > 2 ? true : false
                     },
                     600: {
                         perPage: 1,
                         width: 300,
-                        arrows: course && course.length > 1 ? true : false,
-                        drag: course && course.length > 1 ? true : false,
+                        arrows: course.length > 1 ? true : false,
+                        drag: course.length > 1 ? true : false,
                     },
                     300: {
                         width: 250

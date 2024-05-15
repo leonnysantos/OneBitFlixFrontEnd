@@ -6,8 +6,11 @@ import CardsSection from "@/components/homeNoAuth/cardSection";
 import SlideSection from "@/components/homeNoAuth/slideSection";
 import { GetStaticProps } from "next";
 import courseService, { CourseType } from "@/services/courseService";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import Footer from "@/components/common/footer";
+// @ts-ignore
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 
 interface IndexPageProps {
   children?: ReactNode,
@@ -15,6 +18,11 @@ interface IndexPageProps {
 }
 
 const HomeNotAuth = function ({ course }: IndexPageProps) {
+
+  useEffect(() => {
+    AOS.init()
+  }, [])
+
   return (
     <>
       <Head>
@@ -27,12 +35,16 @@ const HomeNotAuth = function ({ course }: IndexPageProps) {
         />
       </Head>
       <main>
-        <div className={styles.sectionBackground}>
+        <div className={styles.sectionBackground} data-aos='fade-zoom-in' data-aos-duration='1600'>
           <HeaderNoAuth />
           <PresentationSection />
         </div>
-        <CardsSection />
-        <SlideSection newestCourses={course} />
+        <div data-aos='fade-right' data-aos-duration='1200'>
+          <CardsSection />
+        </div>
+        <div data-aos='fade-up' data-aos-duration='1300'>
+          <SlideSection newestCourses={course} />
+        </div>
         <Footer />
       </main>
     </>
@@ -40,35 +52,12 @@ const HomeNotAuth = function ({ course }: IndexPageProps) {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  try {
-    const res = await courseService.getNewestCourses();
-
-    // Verifica se a resposta é válida
-    if (!res || res === undefined || res.course === undefined) {
-      return {
-        props: {
-          course: null, // Use null como valor padrão
-        },
-        revalidate: 3600 * 24,
-      };
-    }
-
-    return {
-      props: {
-        course: res.course,
-      },
-      revalidate: 3600 * 24,
-    };
-  } catch (error) {
-    console.error('Erro ao obter os cursos mais recentes:', error);
-    return {
-      // Trate o caso de erro, por exemplo, redirecionando para uma página de erro
-      redirect: {
-        destination: '/pagina-de-erro',
-        permanent: false,
-      },
-    };
-  }
+  const res = await courseService.getNewestCourses();
+  return {
+    props: {
+      course: res.data,
+    },
+  };
 };
 
 export default HomeNotAuth;
