@@ -18,7 +18,7 @@ const SlideComponent = function ({ course }: props) {
     }
 
     return <>
-        <div className="d-flex flex-column align-items-centes py-4">
+        <div className="d-flex flex-column align-items-center py-4">
             <Splide options={{
                 type: "loop",
                 perPage: slideCount,
