@@ -83,26 +83,17 @@
     margin: 5px 0px;
     font-weight: bold;
     cursor: pointer;
-}
+    transition: 0.4s;
 
-@media (max-width: 575px) {
-    .nav {
-        padding: 24px 14px;
-        gap: 20px;
-    }
-
-    .userProfile {
-        margin: 0;
+    &:hover {
+        color: $lightRed;
     }
 }
 
-@media (max-width: 505px) {
+@media (max-width: 767px) {
     .nav {
         justify-content: center;
-    }
-
-    .userProfile {
-        margin: 0;
+        gap: 20px;
     }
 
     .modal {
