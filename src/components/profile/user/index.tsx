@@ -70,7 +70,9 @@ const UserForm = function () {
                         {firstName.slice(0, 1)}
                         {lastName.slice(0, 1)}
                     </p>
-                    <p className={styles.userName}>`${firstName} ${lastName}`</p>
+                    <p className={styles.userName}>
+                        {`${firstName} ${lastName}`}
+                    </p>
                 </div>
                 <div className={styles.memberTime}>
                     <img src="/profile/iconUserAccount.svg" alt="iconProfile" className={styles.memberTimeImg} />
